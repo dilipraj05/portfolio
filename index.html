@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dilip Raj S – Data Analyst | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0b0c1a;
+      color: #e6e0d3;
+      overflow-x: hidden;
+      line-height: 1.6;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="18" width="4" height="4" fill="%23c99d45"/><rect x="8" y="14" width="4" height="8" fill="%23c99d45"/><rect x="14" y="8" width="4" height="14" fill="%23c99d45"/></svg>') 12 22, crosshair;
+    }
+
+    a, button, .btn, .nav-links a, .card a, .download-btn {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="18" width="4" height="4" fill="%23c99d45"/><rect x="8" y="14" width="4" height="8" fill="%23c99d45"/><rect x="14" y="8" width="4" height="14" fill="%23c99d45"/></svg>') 12 22, pointer;
+    }
+
+    :root {
+      --deep-navy: #0b0c1a;
+      --plum: #2d1b3a;
+      --royal-purple: #5e2c7c;
+      --gold: #c99d45;
+      --gold-light: #e2c275;
+      --cream: #e6e0d3;
+      --dark-card: #151726;
+      --card-border: #2a2d40;
+    }
+
+    #chartCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .particle-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; overflow: hidden; pointer-events: none;
+    }
+    .particle {
+      position: absolute; background: rgba(201,157,69,0.15);
+      border-radius: 50%; animation: float 20s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; position: relative; z-index: 2; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--card-border); flex-wrap: wrap; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--gold-light); letter-spacing: 2px; }
+    .nav-links a { color: var(--cream); margin-left: 30px; text-decoration: none; font-weight: 300; transition: 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
+
+    .hero { min-height: 90vh; display: flex; align-items: center; }
+    .hero-content { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; }
+    .hero-text { flex: 1; }
+    .hero-text .subtitle {
+      font-size: 1.4rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
+      margin-bottom: 10px; min-height: 2rem;
+    }
+    .hero-text .subtitle .cursor {
+      display: inline-block; background: var(--gold); width: 2px; height: 1.4rem;
+      margin-left: 4px; animation: blink 0.8s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; line-height: 1.2;
+      background: linear-gradient(135deg, #e2c275 0%, #fff7e6 80%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-text p { font-size: 1.3rem; margin: 20px 0 30px; color: #d3cfc5; max-width: 550px; }
+    .hero-visual { flex: 1; text-align: center; }
+    .profile-avatar {
+      width: 280px; height: 280px; border-radius: 50%;
+      background: linear-gradient(145deg, #2d1b3a, #5e2c7c);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto;
+      box-shadow: 0 0 60px rgba(201,157,69,0.5); border: 3px solid var(--gold);
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 40px rgba(201,157,69,0.4); }
+      50% { box-shadow: 0 0 80px rgba(201,157,69,0.7); }
+    }
+
+    .btn {
+      display: inline-block; background: var(--gold); color: #0b0c1a; font-weight: 600;
+      padding: 14px 36px; border-radius: 50px; text-decoration: none; letter-spacing: 1px;
+      transition: 0.3s; border: 2px solid transparent; margin-right: 15px;
+    }
+    .btn:hover { background: transparent; border-color: var(--gold); color: var(--gold); }
+
+    .download-btn {
+      display: inline-block; background: transparent; color: var(--gold); font-weight: 600;
+      padding: 14px 36px; border-radius: 50px; text-decoration: none; letter-spacing: 1px;
+      transition: 0.3s; border: 2px solid var(--gold);
+    }
+    .download-btn:hover { background: var(--gold); color: #0b0c1a; }
+
+    section { padding: 100px 0; position: relative; z-index: 2; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--gold-light); margin-bottom: 50px; text-align: center; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 25px; text-align: center; }
+    .skill-item {
+      background: var(--dark-card); padding: 30px 15px; border-radius: 20px;
+      border: 1px solid var(--card-border); transition: 0.3s;
+    }
+    .skill-item:hover { border-color: var(--gold); box-shadow: 0 10px 25px rgba(201,157,69,0.2); }
+    .skill-item .icon { font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; }
+    .card {
+      background: var(--dark-card); border-radius: 20px; padding: 30px; margin-bottom: 30px;
+      border: 1px solid var(--card-border); transition: all 0.4s;
+    }
+    .card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 15px 35px rgba(201,157,69,0.15); }
+    .card h3 { color: var(--gold-light); font-size: 1.5rem; margin-bottom: 10px; }
+    .card .date { color: #9e9a8e; font-size: 0.9rem; margin-bottom: 15px; }
+    footer { text-align: center; padding: 30px; color: #7e7a6e; border-top: 1px solid var(--card-border); }
+
+    @media (max-width: 768px) {
+      .hero-text h1 { font-size: 2.5rem; }
+      .profile-avatar { width: 200px; height: 200px; }
+      .hero-content { flex-direction: column-reverse; }
+      .nav-links a { margin-left: 15px; font-size: 0.9rem; }
+      .btn, .download-btn { display: block; width: 100%; margin-bottom: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="chartCanvas"></canvas>
+
+  <div class="particle-bg" id="particles"></div>
+
+  <div class="container">
+    <nav data-aos="fade-down">
+      <div class="logo">DILIP RAJ S</div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+        <a href="Dilip_Raj_S_Resume.pdf" download class="download-btn" style="margin-left:30px; padding:8px 20px; font-size:0.9rem;">📄 Resume</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-content">
+        <div class="hero-text" data-aos="fade-right">
+          <div class="subtitle" id="typing-subtitle"></div>
+          <h1>Turning Complex Data<br>into Clear Decisions</h1>
+          <p>I clean, validate, and visualize data to drive accurate reporting and smarter business choices. 90%+ accuracy across 100+ client programs.</p>
+          <a href="#contact" class="btn">Get In Touch</a>
+          <a href="Dilip_Raj_S_Resume.pdf" download class="download-btn">📥 Download Resume</a>
+        </div>
+        <div class="hero-visual" data-aos="zoom-in" data-aos-delay="200">
+          <div class="profile-avatar">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="70" width="15" height="35" rx="2" fill="#c99d45" />
+              <rect x="35" y="45" width="15" height="60" rx="2" fill="#c99d45" />
+              <rect x="60" y="20" width="15" height="85" rx="2" fill="#c99d45" />
+              <rect x="85" y="50" width="15" height="55" rx="2" fill="#c99d45" />
+              <circle cx="95" cy="95" r="15" stroke="#e2c275" stroke-width="4" fill="none" />
+              <line x1="105" y1="105" x2="112" y2="112" stroke="#e2c275" stroke-width="4" stroke-linecap="round" />
+              <circle cx="35" cy="20" r="8" fill="#e2c275" />
+              <path d="M20 50 Q35 35 50 50 L50 60 Q35 55 20 60 Z" fill="#e2c275" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Rest of the sections (About, Skills, Experience, Projects, Contact) are unchanged, but I'll include them for completeness -->
+    <section id="about">
+      <h2 class="section-title" data-aos="fade-up">About Me</h2>
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <p>
+          Data Analyst with hands‑on experience cleaning, validating, and reporting on large supplier and financial datasets for enterprise clients across healthcare, banking, manufacturing, and retail. Improved reporting accuracy to 90%+ across 100+ client programs using SQL, eScrub, and Power BI. I’m comfortable working with SQL, Python, and Power BI to uncover data quality issues, resolve them, and deliver dashboards and KPI reports that teams actually use.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 class="section-title" data-aos="fade-up">Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="50"><div class="icon">🗄️</div> SQL</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="100"><div class="icon">🐍</div> Python</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="150"><div class="icon">📊</div> Power BI</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="200"><div class="icon">📈</div> Excel</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="250"><div class="icon">🔍</div> ETL & Data Quality</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="300"><div class="icon">📉</div> Statistics</div>
+        <div class="skill-item" data-aos="flip-left" data-aos-delay="350"><div class="icon">☁️</div> Cloud (Azure/AWS)</div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2 class="section-title" data-aos="fade-up">Experience</h2>
+      <div class="card" data-aos="fade-right">
+        <h3>Data Analyst</h3>
+        <div class="date">VIVA USA Inc. | Jun 2025 – Present</div>
+        <p>Improved supplier reporting accuracy to 90%+ across 100+ client programs by validating and cleansing supplier data using eScrub and SQL. Reduced discrepancies through SQL audits, maintained MBE/WBE/SBE compliance, and delivered audit‑ready datasets via reconciliation checks.</p>
+      </div>
+      <div class="card" data-aos="fade-left">
+        <h3>Data Analytics Intern</h3>
+        <div class="date">Infrasoft Technologies (Kiya.ai), Chennai | Feb 2025 – May 2025</div>
+        <p>Built Power BI dashboards tracking KPIs for an AI project. Cleaned datasets with Python, SQL, Excel, and applied NLP to employee feedback, surfacing improvement opportunities.</p>
+      </div>
+      <div class="card" data-aos="fade-right">
+        <h3>Junior Executive / Analyst (Data & Reporting)</h3>
+        <div class="date">Shriram Finance Ltd. | Aug 2022 – Apr 2023</div>
+        <p>Created Power BI dashboards with SQL and Informatica extracts for client performance reporting. Improved data quality using Python and Excel, and automated manual report workflows.</p>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title" data-aos="fade-up">Projects</h2>
+      <div class="card" data-aos="zoom-in-up">
+        <h3>🏦 Credit Score & Risk Management</h3>
+        <p>Built a credit default risk model (80%+ ROC‑AUC) on real financial data. Visualised with Matplotlib. 
+        <br><a href="https://github.com/dilipraj05/Credit-Score-Risk-Management" target="_blank" style="color: var(--gold);">View on GitHub</a></p>
+      </div>
+      <div class="card" data-aos="zoom-in-up" data-aos-delay="100">
+        <h3>📈 Apple Stock Price Prediction</h3>
+        <p>Linear Regression on 5 years of Yahoo Finance data to forecast closing prices. Evaluated with RMSE and R². 
+        <br><a href="https://github.com/dilipraj05/Apple-Stock-Price-Prediction" target="_blank" style="color: var(--gold);">View on GitHub</a></p>
+      </div>
+      <div class="card" data-aos="zoom-in-up" data-aos-delay="200">
+        <h3>📰 Fake News Detection</h3>
+        <p>TF‑IDF text classification model to flag fake news articles, reaching 95%+ accuracy. 
+        <br><a href="https://github.com/dilipraj05/Fake-News-Detection" target="_blank" style="color: var(--gold);">View on GitHub</a></p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title" data-aos="fade-up">Contact</h2>
+      <div style="text-align: center; font-size: 1.2rem;" data-aos="fade-up">
+        <p>📧 <a href="mailto:romandilip936@gmail.com">romandilip936@gmail.com</a></p>
+        <p>🔗 <a href="https://www.linkedin.com/in/dilip-raj-s-a3aa4224b" target="_blank">LinkedIn</a></p>
+        <p>🐙 <a href="https://github.com/dilipraj05" target="_blank">GitHub</a></p>
+        <p style="margin-top: 20px;">📞 +91 8838195112</p>
+        <p>📍 Chennai, Tamil Nadu, India</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Dilip Raj S – Portfolio</p>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true, easing: 'ease-out-cubic' });
+
+    // Floating particles
+    const particleContainer = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 6 + 2;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 15 + 's';
+      p.style.animationDuration = Math.random() * 20 + 15 + 's';
+      particleContainer.appendChild(p);
+    }
+
+    // Typing effect
+    const subtitleEl = document.getElementById('typing-subtitle');
+    const text = "Data Analyst";
+    let i = 0;
+    function typeWriter() {
+      if (i < text.length) {
+        subtitleEl.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+        i++;
+        setTimeout(typeWriter, 100);
+      } else {
+        subtitleEl.innerHTML = text + '<span class="cursor"></span>';
+      }
+    }
+    typeWriter();
+
+    // Live line-chart background
+    (function() {
+      const canvas = document.getElementById('chartCanvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      const points = [];
+      const maxPoints = 80;
+      const speed = 0.5;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        points.length = 0;
+        for (let i = 0; i <= maxPoints; i++) {
+          points.push({
+            x: (i / maxPoints) * width,
+            y: Math.random() * height * 0.6 + height * 0.2
+          });
+        }
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < points.length; i++) {
+          points[i].x -= speed;
+          if (points[i].x < -20) {
+            points[i].x = width + 20;
+            points[i].y = Math.random() * height * 0.6 + height * 0.2;
+          }
+        }
+        points.sort((a,b) => a.x - b.x);
+        ctx.beginPath();
+        ctx.strokeStyle = '#c99d45';
+        ctx.lineWidth = 1.5;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        let first = true;
+        for (let p of points) {
+          if (first) { ctx.moveTo(p.x, p.y); first = false; }
+          else { ctx.lineTo(p.x, p.y); }
+        }
+        ctx.stroke();
+        for (let p of points) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#c99d45';
+          ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+  </script>
+</body>
+</html>
